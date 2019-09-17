@@ -26,7 +26,7 @@ from PIL import Image
 from PIL import ImageDraw
 import ST7789 as ST7789
 
-SPI_SPEED_MHZ = 10  # Higher speed = higher framerate
+SPI_SPEED_MHZ = 80  # Higher speed = higher framerate
 
 if len(sys.argv) > 1:
     SPI_SPEED_MHZ = int(sys.argv[1])

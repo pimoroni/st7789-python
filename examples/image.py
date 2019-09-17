@@ -42,8 +42,7 @@ disp = ST7789.ST7789(
     cs=ST7789.BG_SPI_CS_FRONT,  # BG_SPI_CSB_BACK or BG_SPI_CS_FRONT
     dc=9,
     backlight=19,               # 18 for back BG slot, 19 for front BG slot.
-    rotation=90,
-    spi_speed_hz=4000000
+    spi_speed_hz=80 * 1000 * 1000
 )
 
 WIDTH = disp.width

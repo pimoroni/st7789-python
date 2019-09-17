@@ -8,7 +8,7 @@
 
 Python library to control an ST7789 TFT LCD display
 
-Designed specifically to work with a ST7789 based 160x160 pixel TFT SPI display. (Specifically the 1.3" SPI LCD from Pimoroni).
+Designed specifically to work with a ST7789 based 240x240 pixel TFT SPI display. (Specifically the 1.3" SPI LCD from Pimoroni).
 
 Make sure you have the following dependencies:
 

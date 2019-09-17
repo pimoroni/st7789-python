@@ -99,7 +99,7 @@ class ST7789(object):
     """Representation of an ST7789 TFT LCD."""
 
     def __init__(self, port, cs, dc, backlight=None, rst=None, width=240,
-                 height=240, rotation=90, offset_left=None, offset_top=None, invert=True, spi_speed_hz=4000000):
+                 height=240, rotation=90, invert=True, spi_speed_hz=4000000):
         """Create an instance of the display using SPI communication.
 
         Must provide the GPIO pin number for the D/C pin and the SPI driver.
@@ -113,8 +113,6 @@ class ST7789(object):
         :param width: Width of display connected to ST7789
         :param height: Height of display connected to ST7789
         :param rotation: Rotation of display connected to ST7789
-        :param offset_left: COL offset in ST7789 memory
-        :param offset_top: ROW offset in ST7789 memory
         :param invert: Invert display
         :param spi_speed_hz: SPI speed (in Hz)
 

@@ -221,10 +221,10 @@ class ST7789(object):
         self.data(0x05)
 
         self.command(ST7789_GCTRL)
-        self.data(0x35)
+        self.data(0x14)
 
         self.command(ST7789_VCOMS)
-        self.data(0x19)
+        self.data(0x37)
 
         self.command(ST7789_LCMCTRL)    # Power control
         self.data(0x2C)

@@ -14,7 +14,7 @@ Make sure you have the following dependencies:
 
 ````
 sudo apt-get update
-sudo apt-get install python-rpi.gpio python-spidev python-pip python-imaging python-numpy
+sudo apt-get install python-rpi.gpio python-spidev python-pip python-pil python-numpy
 ````
 
 Install this library by running:

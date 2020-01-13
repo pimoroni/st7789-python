@@ -1,3 +1,9 @@
+0.0.2
+-----
+
+* Fix for image retention
+* Drop defunct parameters
+
 0.0.1
 -----
 

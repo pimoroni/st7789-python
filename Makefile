@@ -20,7 +20,7 @@ python-readme: library/README.rst
 python-license: library/LICENSE.txt
 
 library/README.rst: README.md
-	pandoc --from=markdown --to=rst -o library/README.rst README.md
+	cp README.md library/README.md
 
 library/LICENSE.txt: LICENSE
 	cp LICENSE library/LICENSE.txt
@@ -43,5 +43,5 @@ python-dist: python-clean python-wheels python-sdist
 python-deploy: python-dist
 	twine upload library/dist/*
 
-python-deploy-test: python-dist
+python-testdeploy: python-dist
 	twine upload --repository-url https://test.pypi.org/legacy/ library/dist/*

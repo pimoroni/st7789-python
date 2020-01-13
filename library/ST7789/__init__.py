@@ -26,7 +26,7 @@ import spidev
 import RPi.GPIO as GPIO
 
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
 BG_SPI_CS_BACK = 0
 BG_SPI_CS_FRONT = 1

@@ -11,9 +11,10 @@ classifiers = ['Development Status :: 4 - Beta',
                'Topic :: System :: Hardware']
 
 setup(name='ST7789',
-      version='0.0.1',
+      version='0.0.2',
       description='Library to control an ST7789 160x160 TFT LCD display.',
-      long_description=open('README.rst').read() + '\n' + open('CHANGELOG.txt').read(),
+      long_description=open('README.md').read() + '\n' + open('CHANGELOG.txt').read(),
+      long_description_content_type='text/markdown',
       license='MIT',
       author='Philip Howard',
       author_email='phil@pimoroni.com',

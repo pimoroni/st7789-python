@@ -27,7 +27,7 @@ print("""
 image.py - Display an image on the LCD.
 
 If you're using Breakout Garden, plug the 1.3" LCD (SPI)
-breakout into the rear slot.
+breakout into the front slot.
 """)
 
 if len(sys.argv) < 2:
@@ -39,7 +39,7 @@ image_file = sys.argv[1]
 # Create ST7789 LCD display class.
 disp = ST7789.ST7789(
     port=0,
-    cs=ST7789.BG_SPI_CS_FRONT,  # BG_SPI_CSB_BACK or BG_SPI_CS_FRONT
+    cs=ST7789.BG_SPI_CS_FRONT,  # BG_SPI_CS_BACK or BG_SPI_CS_FRONT
     dc=9,
     backlight=19,               # 18 for back BG slot, 19 for front BG slot.
     spi_speed_hz=80 * 1000 * 1000

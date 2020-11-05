@@ -35,7 +35,7 @@ print("""
 framerate.py - Test LCD framerate.
 
 If you're using Breakout Garden, plug the 1.3" LCD (SPI)
-breakout into the rear slot.
+breakout into the front slot.
 
 Running at: {}MHz
 """.format(SPI_SPEED_MHZ))
@@ -43,7 +43,7 @@ Running at: {}MHz
 # Create ST7789 LCD display class.
 disp = ST7789.ST7789(
     port=0,
-    cs=ST7789.BG_SPI_CS_FRONT,  # BG_SPI_CSB_BACK or BG_SPI_CS_FRONT
+    cs=ST7789.BG_SPI_CS_FRONT,  # BG_SPI_CS_BACK or BG_SPI_CS_FRONT
     dc=9,
     backlight=19,               # 18 for back BG slot, 19 for front BG slot.
     rotation=90,

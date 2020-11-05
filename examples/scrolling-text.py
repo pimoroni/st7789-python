@@ -11,7 +11,7 @@ MESSAGE = "Hello World! How are you today?"
 # Create ST7789 LCD display class.
 disp = ST7789.ST7789(
     port=0,
-    cs=ST7789.BG_SPI_CS_FRONT,  # BG_SPI_CSB_BACK or BG_SPI_CS_FRONT
+    cs=ST7789.BG_SPI_CS_FRONT,  # BG_SPI_CS_BACK or BG_SPI_CS_FRONT
     dc=9,
     backlight=19,               # 18 for back BG slot, 19 for front BG slot.
     spi_speed_hz=80 * 1000 * 1000

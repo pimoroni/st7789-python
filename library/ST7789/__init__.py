@@ -43,15 +43,8 @@ ST7789_SLPOUT = 0x11
 ST7789_PTLON = 0x12
 ST7789_NORON = 0x13
 
-# ILI9341_RDMODE = 0x0A
-# ILI9341_RDMADCTL = 0x0B
-# ILI9341_RDPIXFMT = 0x0C
-# ILI9341_RDIMGFMT = 0x0A
-# ILI9341_RDSELFDIAG = 0x0F
-
 ST7789_INVOFF = 0x20
 ST7789_INVON = 0x21
-# ILI9341_GAMMASET = 0x26
 ST7789_DISPOFF = 0x28
 ST7789_DISPON = 0x29
 
@@ -68,7 +61,6 @@ ST7789_FRMCTR1 = 0xB1
 ST7789_FRMCTR2 = 0xB2
 ST7789_FRMCTR3 = 0xB3
 ST7789_INVCTR = 0xB4
-# ILI9341_DFUNCTR = 0xB6
 ST7789_DISSET5 = 0xB6
 
 ST7789_GCTRL = 0xB7
@@ -99,7 +91,9 @@ class ST7789(object):
     """Representation of an ST7789 TFT LCD."""
 
     def __init__(self, port, cs, dc, backlight=None, rst=None, width=240,
-                 height=240, rotation=90, invert=True, spi_speed_hz=4000000):
+                 height=240, rotation=90, invert=True, spi_speed_hz=4000000,
+                 offset_left=0,
+                 offset_top=0):
         """Create an instance of the display using SPI communication.
 
         Must provide the GPIO pin number for the D/C pin and the SPI driver.
@@ -133,8 +127,8 @@ class ST7789(object):
         self._rotation = rotation
         self._invert = invert
 
-        self._offset_left = 0
-        self._offset_top = 0
+        self._offset_left = offset_left
+        self._offset_top = offset_top
 
         # Set DC as output.
         GPIO.setup(dc, GPIO.OUT)

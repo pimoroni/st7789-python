@@ -1,3 +1,9 @@
+0.0.3
+-----
+
+* Add support for RLCD
+* Brought back `offset_left` and `offset_top` parameters
+
 0.0.2
 -----
 

@@ -11,8 +11,8 @@ classifiers = ['Development Status :: 4 - Beta',
                'Topic :: System :: Hardware']
 
 setup(name='ST7789',
-      version='0.0.2',
-      description='Library to control an ST7789 160x160 TFT LCD display.',
+      version='0.0.3',
+      description='Library to control ST7789 TFT LCD displays.',
       long_description=open('README.md').read() + '\n' + open('CHANGELOG.txt').read(),
       long_description_content_type='text/markdown',
       license='MIT',

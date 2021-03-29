@@ -3,7 +3,7 @@ usage:
 	@echo "Usage: make <target>, where target is one of:\n"
 	@echo "install:	   install the library locally from source"
 	@echo "uninstall:	 uninstall the local library"
-	@echo "python-readme: generate library/README.rst from README.md"
+	@echo "python-readme: generate library/README.md from README.md"
 	@echo "python-wheels: build python .whl files for distribution"
 	@echo "python-sdist:  build python source distribution"
 	@echo "python-clean:  clean python build and dist directories"
@@ -15,12 +15,14 @@ install:
 uninstall:
 	./uninstall.sh
 
-python-readme: library/README.rst
+python-readme: library/README.md
 
 python-license: library/LICENSE.txt
 
-library/README.rst: README.md
+library/README.md: README.md library/CHANGELOG.txt
 	cp README.md library/README.md
+	printf "\n# Changelog\n" >> library/README.md
+	cat library/CHANGELOG.txt >> library/README.md
 
 library/LICENSE.txt: LICENSE
 	cp LICENSE library/LICENSE.txt

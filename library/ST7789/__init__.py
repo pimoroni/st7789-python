@@ -341,11 +341,10 @@ class ST7789(object):
         """Generator function to convert a PIL image to 16-bit 565 RGB bytes."""
         # NumPy is much faster at doing this. NumPy code provided by:
         # Keith (https://www.blogger.com/profile/02555547344016007163)
-        if type(image) == np.ndarray:
-            pb = np.rot90(image, rotation // 90).astype('uint8')
-        else:
-            pb = np.rot90(np.array(image.convert('RGB')), rotation // 90).astype('uint8')
+        if not isinstance(image, np.ndarray):
+            image = np.array(image.convert('RGB'))
 
+        pb = np.rot90(image, rotation // 90).astype('uint8')
 
         result = np.zeros((self._width, self._height, 2), dtype=np.uint8)
         result[..., [0]] = np.add(np.bitwise_and(pb[..., [0]], 0xF8), np.right_shift(pb[..., [1]], 5))

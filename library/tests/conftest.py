@@ -25,14 +25,3 @@ def spidev():
     sys.modules['spidev'] = spidev
     yield spidev
     del sys.modules['spidev']
-
-
-@pytest.fixture(scope='function', autouse=False)
-def numpy():
-    """Mock numpy module."""
-
-    numpy = mock.MagicMock()
-
-    sys.modules['numpy'] = numpy
-    yield numpy
-    del sys.modules['numpy']

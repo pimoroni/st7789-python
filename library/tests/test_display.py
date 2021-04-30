@@ -15,6 +15,4 @@ def test_display_numpy_array(GPIO, spidev):
     display = ST7789.ST7789(port=0, cs=0, dc=24)
 
     image = numpy.empty((display.width, display.height, 3))
-
-    with pytest.raises(AttributeError):
-        display.display(image)
+    display.display(image)

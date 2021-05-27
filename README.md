@@ -27,7 +27,7 @@ Install this library by running:
 sudo pip install st7789
 ````
 
-See example of usage in the examples folder.
+You might also need to enable I2C and SPI in raspi-config. See example of usage in the examples folder.
 
 
 # Licensing & History

@@ -346,7 +346,7 @@ class ST7789(object):
 
         pb = np.rot90(image, rotation // 90).astype('uint8')
 
-        result = np.zeros((self._width, self._height, 2), dtype=np.uint8)
+        result = np.zeros((self._height, self._width, 2), dtype=np.uint8)
         result[..., [0]] = np.add(np.bitwise_and(pb[..., [0]], 0xF8), np.right_shift(pb[..., [1]], 5))
         result[..., [1]] = np.add(np.bitwise_and(np.left_shift(pb[..., [1]], 3), 0xE0), np.right_shift(pb[..., [2]], 3))
         return result.flatten().tolist()

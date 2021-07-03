@@ -31,19 +31,22 @@ Usage: {} <spi_speed_mhz> <display_type>
 Where <display_type> is one of:
   * square - 240x240 1.3" Square LCD
   * round  - 240x240 1.3" Round LCD (applies an offset)
+  * rect   - 240x135 1.14" Rectangular LCD (applies an offset)
 
 Running at: {}MHz on a {} display.
 """.format(sys.argv[0], SPI_SPEED_MHZ, display_type))
 
 # Create ST7789 LCD display class.
 disp = ST7789.ST7789(
+    height=135 if display_type == "rect" else 240,
+    rotation=0 if display_type == "rect" else 90,
     port=0,
     cs=ST7789.BG_SPI_CS_FRONT,  # BG_SPI_CS_BACK or BG_SPI_CS_FRONT
     dc=9,
     backlight=19,               # 18 for back BG slot, 19 for front BG slot.
-    rotation=90,
     spi_speed_hz=SPI_SPEED_MHZ * 1000000,
-    offset_left=40 if display_type == "round" else 0
+    offset_left=0 if display_type == "square" else 40,
+    offset_top=53 if display_type == "rect" else 0
 )
 
 WIDTH = disp.width
@@ -56,9 +59,9 @@ for step in range(STEPS):
     draw = ImageDraw.Draw(image)
 
     if step % 2 == 0:
-        draw.rectangle((120, 120, 240, 240), (0, 128, 0))
+        draw.rectangle((WIDTH/2, int(HEIGHT/2), WIDTH, HEIGHT), (0, 128, 0))
     else:
-        draw.rectangle((0, 0, 119, 119), (0, 128, 0))
+        draw.rectangle((0, 0, WIDTH/2-1, int(HEIGHT/2)-1), (0, 128, 0))
 
     f = math.sin((float(step) / STEPS) * math.pi)
     offset_left = int(f * WIDTH)

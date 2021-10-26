@@ -111,6 +111,11 @@ class ST7789(object):
         :param spi_speed_hz: SPI speed (in Hz)
 
         """
+        if rotation not in [0, 90, 180, 270]:
+            raise ValueError("Invalid rotation {}".format(rotation))
+
+        if width != height and rotation in [90, 270]:
+            raise ValueError("Invalid rotation {} for {}x{} resolution".format(rotation, width, height))
 
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)

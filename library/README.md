@@ -27,7 +27,7 @@ Install this library by running:
 sudo pip install st7789
 ````
 
-See example of usage in the examples folder.
+You might also need to enable I2C and SPI in raspi-config. See example of usage in the examples folder.
 
 
 # Licensing & History
@@ -52,6 +52,15 @@ Modified from 'Modified from 'Adafruit Python ILI9341' written by Tony DiCola fo
 MIT license, all text above must be included in any redistribution
 
 # Changelog
+
+0.0.4
+-----
+
+* Add support for 320x240 2.0" LCD (Display HAT Mini)
+* Add support for 240x135 1.14" LCD (@slabua)
+* Rework numpy RGB888 to RGB565
+* Support displaying numpy arrays (@zecktos)
+
 0.0.3
 -----
 

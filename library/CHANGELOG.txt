@@ -1,3 +1,11 @@
+0.0.4
+-----
+
+* Add support for 320x240 2.0" LCD (Display HAT Mini)
+* Add support for 240x135 1.14" LCD (@slabua)
+* Rework numpy RGB888 to RGB565
+* Support displaying numpy arrays (@zecktos)
+
 0.0.3
 -----
 

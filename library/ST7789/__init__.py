@@ -111,6 +111,11 @@ class ST7789(object):
         :param spi_speed_hz: SPI speed (in Hz)
 
         """
+        if rotation not in [0, 90, 180, 270]:
+            raise ValueError("Invalid rotation {}".format(rotation))
+
+        if width != height and rotation in [90, 270]:
+            raise ValueError("Invalid rotation {} for {}x{} resolution".format(rotation, width, height))
 
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
@@ -328,25 +333,29 @@ class ST7789(object):
         """
         # Set address bounds to entire display.
         self.set_window()
-        # Convert image to array of 18bit 666 RGB data bytes.
-        # Unfortunate that this copy has to occur, but the SPI byte writing
-        # function needs to take an array of bytes and PIL doesn't natively
-        # store images in 18-bit 666 RGB format.
-        pixelbytes = list(self.image_to_data(image, self._rotation))
+
+        # Convert image to 16bit RGB565 format and
+        # flatten into bytes.
+        pixelbytes = self.image_to_data(image, self._rotation)
+
         # Write data to hardware.
         for i in range(0, len(pixelbytes), 4096):
             self.data(pixelbytes[i:i + 4096])
 
     def image_to_data(self, image, rotation=0):
-        """Generator function to convert a PIL image to 16-bit 565 RGB bytes."""
-        # NumPy is much faster at doing this. NumPy code provided by:
-        # Keith (https://www.blogger.com/profile/02555547344016007163)
         if not isinstance(image, np.ndarray):
             image = np.array(image.convert('RGB'))
 
-        pb = np.rot90(image, rotation // 90).astype('uint8')
+        # Rotate the image
+        pb = np.rot90(image, rotation // 90).astype('uint16')
 
-        result = np.zeros((self._height, self._width, 2), dtype=np.uint8)
-        result[..., [0]] = np.add(np.bitwise_and(pb[..., [0]], 0xF8), np.right_shift(pb[..., [1]], 5))
-        result[..., [1]] = np.add(np.bitwise_and(np.left_shift(pb[..., [1]], 3), 0xE0), np.right_shift(pb[..., [2]], 3))
-        return result.flatten().tolist()
+        # Mask and shift the 888 RGB into 565 RGB
+        red   = (pb[..., [0]] & 0xf8) << 8
+        green = (pb[..., [1]] & 0xfc) << 3
+        blue  = (pb[..., [2]] & 0xf8) >> 3
+
+        # Stick 'em together
+        result = red | green | blue
+
+        # Output the raw bytes
+        return result.byteswap().tobytes()

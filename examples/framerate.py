@@ -41,7 +41,7 @@ try:
     width, height, rotation, backlight, offset_left, offset_top = {
         "square": (240, 240, 90, 19, 0, 0),
         "round": (240, 240, 90, 19, 40, 0),
-        "rect": (240, 135, 0, 19, 40, 43),
+        "rect": (240, 135, 0, 19, 40, 53),
         "dhmini": (320, 240, 180, 13, 0, 0)
     }[display_type]
 except IndexError:

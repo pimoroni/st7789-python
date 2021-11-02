@@ -6,29 +6,53 @@
 [![Python Versions](https://img.shields.io/pypi/pyversions/st7789.svg)](https://pypi.python.org/pypi/st7789)
 
 
-Python library to control an ST7789 TFT LCD display
+Python library to control ST7789 TFT LCD displays.
 
-Designed specifically to work with a ST7789 based 240x240 pixel TFT SPI display. (Specifically the [1.3" SPI LCD from Pimoroni](https://shop.pimoroni.com/products/1-3-spi-colour-lcd-240x240-breakout)).
+Designed to work with the following Pimoroni ST7789 based SPI breakouts and Raspberry Pi HATs:
 
-![Animated GIF showing the ST7789 SPI LCD displaying Deploy/Rainbows in alternating frames](https://raw.githubusercontent.com/pimoroni/st7789-python/master/square-lcd-breakout-1.gif)
+- [1.54" SPI Colour Square LCD (240x240) Breakout](https://shop.pimoroni.com/products/1-54-spi-colour-square-lcd-240x240-breakout)
+- [1.3" SPI Colour Square LCD (240x240) Breakout](https://shop.pimoroni.com/products/1-3-spi-colour-lcd-240x240-breakout)
+- [1.3" SPI Colour Round LCD (240x240) Breakout](https://shop.pimoroni.com/products/1-3-spi-colour-round-lcd-240x240-breakout)
+- [Display HAT Mini](https://shop.pimoroni.com/products/display-hat-mini) (2.0" 320x240 LCD)
+
+![Photo showing four different Pimoroni ST7789-based products](st7789-combined.jpg)
 
 # Installation
 
-Make sure you have the following dependencies:
+First, make sure you have the following dependencies:
 
-````
-sudo apt-get update
-sudo apt-get install python-rpi.gpio python-spidev python-pip python-pil python-numpy
+````bash
+sudo apt update
+sudo apt install python-rpi.gpio python-spidev python-pip python-pil python-numpy
 ````
 
 Install this library by running:
 
-````
-sudo pip install st7789
+````bash
+sudo pip3 install st7789
 ````
 
-You might also need to enable I2C and SPI in raspi-config. See example of usage in the examples folder.
+You will also need to make sure I2C and SPI are enabled in raspi-config (`sudo raspi-config`) - you can find them under Interface Options. 
 
+# Examples
+
+You can find some examples of use in the examples folder. Clone this repo with:
+
+```bash
+git clone https://github.com/pimoroni/st7789-python
+```
+
+and navigate into the examples folder with:
+
+```bash
+cd ~/st7789-python/examples/
+```
+
+You can pass most of them a parameter (`square`, `rect`, `round`, or `dhmini`) to specify the size/shape/rotation of screen, like this:
+
+```bash
+python3 shapes.py dhmini
+```
 
 # Licensing & History
 

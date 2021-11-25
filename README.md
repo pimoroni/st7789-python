@@ -23,7 +23,7 @@ First, make sure you have the following dependencies:
 
 ````bash
 sudo apt update
-sudo apt install python-rpi.gpio python-spidev python-pip python-pil python-numpy
+sudo apt install python3-rpi.gpio python3-spidev python3-pip python3-pil python3-numpy
 ````
 
 Install this library by running:

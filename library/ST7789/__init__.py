@@ -148,9 +148,8 @@ class ST7789(object):
 
         # Setup reset as output (if provided).
         if rst is not None:
-            GPIO.setup(rst, GPIO.OUT)
-
-        self.reset()
+            GPIO.setup(self._rst, GPIO.OUT)
+            self.reset()
         self._init()
 
     def send(self, data, is_data=True, chunk_size=4096):

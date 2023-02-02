@@ -18,3 +18,5 @@ library/debian/
 .coverage
 .pytest_cache
 .tox
+
+library/.venv

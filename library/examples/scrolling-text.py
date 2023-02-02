@@ -1,39 +1,52 @@
 #!/usr/bin/env python3
 import sys
+import time
 
 from PIL import Image
-import ST7789 as ST7789
+from PIL import ImageDraw
+from PIL import ImageFont
+
+from OrangePi import ST7789
+
+SPI_PORT = 0
+SPI_CS = 0
+SPI_DC = 27    # PA0
+SPI_RES = 17   # PA1
+BACKLIGHT = 22 # PA3
+
+MESSAGE = "Hello World! How are you today?"
 
 print("""
-image.py - Display an image on the LCD.
+scrolling-test.py - Display scrolling text.
 
 If you're using Breakout Garden, plug the 1.3" LCD (SPI)
 breakout into the front slot.
 
-""")
-
-if len(sys.argv) < 2:
-    print("""Usage: {} <image_file> <display_type>
+Usage: {} "<message>" <display_type>
 
 Where <display_type> is one of:
+
   * square - 240x240 1.3" Square LCD
   * round  - 240x240 1.3" Round LCD (applies an offset)
   * rect   - 240x135 1.14" Rectangular LCD (applies an offset)
-  * dhmini - 320x240 2.0" Display HAT Mini 
+  * dhmini - 320x240 2.0" Display HAT Mini
 """.format(sys.argv[0]))
-    sys.exit(1)
 
-image_file = sys.argv[1]
+try:
+    MESSAGE = sys.argv[1]
+except IndexError:
+    pass
 
 try:
     display_type = sys.argv[2]
 except IndexError:
-    display_type = "square"
+    display_type = "dhmini"
+
 
 # Create ST7789 LCD display class.
 
 if display_type in ("square", "rect", "round"):
-    disp = ST7789.ST7789(
+    disp = ST7789(
         height=135 if display_type == "rect" else 240,
         rotation=0 if display_type == "rect" else 90,
         port=0,
@@ -46,14 +59,15 @@ if display_type in ("square", "rect", "round"):
     )
 
 elif display_type == "dhmini":
-    disp = ST7789.ST7789(
+    disp = ST7789(
         height=240,
         width=320,
-        rotation=180,
-        port=0,
-        cs=1,
-        dc=9,
-        backlight=13,
+        rotation=0,
+        port=SPI_PORT,
+        cs=SPI_CS,
+        dc=SPI_DC,
+        rst=SPI_RES,
+        backlight=BACKLIGHT,
         spi_speed_hz=60 * 1000 * 1000,
         offset_left=0,
         offset_top=0
@@ -62,20 +76,28 @@ elif display_type == "dhmini":
 else:
     print ("Invalid display type!")
 
-WIDTH = disp.width
-HEIGHT = disp.height
-
 # Initialize display.
 disp.begin()
 
-# Load an image.
-print('Loading image: {}...'.format(image_file))
-image = Image.open(image_file)
+WIDTH = disp.width
+HEIGHT = disp.height
 
-# Resize the image
-image = image.resize((WIDTH, HEIGHT))
+img = Image.new('RGB', (WIDTH, HEIGHT), color=(0, 0, 0))
 
-# Draw the image on the display hardware.
-print('Drawing image')
+draw = ImageDraw.Draw(img)
 
-disp.display(image)
+font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 30)
+
+size_x, size_y = draw.textsize(MESSAGE, font)
+
+text_x = disp.width
+text_y = (disp.height - size_y) // 2
+
+t_start = time.time()
+
+while True:
+    x = (time.time() - t_start) * 100
+    x %= (size_x + disp.width)
+    draw.rectangle((0, 0, disp.width, disp.height), (0, 0, 0))
+    draw.text((int(text_x - x), text_y), MESSAGE, font=font, fill=(255, 255, 255))
+    disp.display(img)

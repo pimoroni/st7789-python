@@ -1,21 +1,11 @@
-# Python ST7789
+# Python ST7789 for OrangePi
 
-[![Build Status](https://travis-ci.com/pimoroni/st7789-python.svg?branch=master)](https://travis-ci.com/pimoroni/st7789-python)
-[![Coverage Status](https://coveralls.io/repos/github/pimoroni/st7789-python/badge.svg?branch=master)](https://coveralls.io/github/pimoroni/st7789-python?branch=master)
-[![PyPi Package](https://img.shields.io/pypi/v/st7789.svg)](https://pypi.python.org/pypi/st7789)
-[![Python Versions](https://img.shields.io/pypi/pyversions/st7789.svg)](https://pypi.python.org/pypi/st7789)
+Python library to control ST7789 TFT LCD displays on the Orange Pi.
 
+Designed to work with the following ST7789 based SPI breakouts and Orange Pi Extension:
 
-Python library to control ST7789 TFT LCD displays.
-
-Designed to work with the following Pimoroni ST7789 based SPI breakouts and Raspberry Pi HATs:
-
-- [1.54" SPI Colour Square LCD (240x240) Breakout](https://shop.pimoroni.com/products/1-54-spi-colour-square-lcd-240x240-breakout)
-- [1.3" SPI Colour Square LCD (240x240) Breakout](https://shop.pimoroni.com/products/1-3-spi-colour-lcd-240x240-breakout)
-- [1.3" SPI Colour Round LCD (240x240) Breakout](https://shop.pimoroni.com/products/1-3-spi-colour-round-lcd-240x240-breakout)
-- [Display HAT Mini](https://shop.pimoroni.com/products/display-hat-mini) (2.0" 320x240 LCD)
-
-![Photo showing four different Pimoroni ST7789-based products](st7789-combined.jpg)
+- [Orange PI Hi-Fi Hat
+](https://sonocotta.com/orange-pi-hi-fi-hat/)
 
 # Installation
 
@@ -23,13 +13,13 @@ First, make sure you have the following dependencies:
 
 ````bash
 sudo apt update
-sudo apt install python3-rpi.gpio python3-spidev python3-pip python3-pil python3-numpy
+sudo apt install python3-spidev python3-pip python3-pil python3-numpy
 ````
 
 Install this library by running:
 
 ````bash
-sudo pip3 install st7789
+sudo pip3 install OrangePi.ST7789
 ````
 
 You will also need to make sure I2C and SPI are enabled in raspi-config (`sudo raspi-config`) - you can find them under Interface Options. 
@@ -39,13 +29,13 @@ You will also need to make sure I2C and SPI are enabled in raspi-config (`sudo r
 You can find some examples of use in the examples folder. Clone this repo with:
 
 ```bash
-git clone https://github.com/pimoroni/st7789-python
+git clone https://github.com/sonocotta/st7789-orangepi-python
 ```
 
 and navigate into the examples folder with:
 
 ```bash
-cd ~/st7789-python/examples/
+cd ~/st7789-orangepi-python/library/examples/
 ```
 
 You can pass most of them a parameter (`square`, `rect`, `round`, or `dhmini`) to specify the size/shape/rotation of screen, like this:
@@ -64,7 +54,7 @@ To create this ST7789 driver, it has been hard-forked from st7735-python which w
 
 * PIL/Pillow has been removed from the underlying display driver to separate concerns- you should create your own PIL image and display it using `display(image)`
 * `width`, `height`, `rotation`, `invert`, `offset_left` and `offset_top` parameters can be passed into `__init__` for alternate displays
-* `Adafruit_GPIO` has been replaced with `RPi.GPIO` and `spidev` to closely align with our other software (IE: Raspberry Pi only)
+* `Adafruit_GPIO` has been replaced with `OPi.GPIO` and `spidev` to closely align with our other software (IE: Orange Pi only)
 * Test fixtures have been added to keep this library stable
 
 Pimoroni invests time and resources forking and modifying this open source code, please support Pimoroni and open-source software by purchasing products from us, too!

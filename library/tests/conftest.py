@@ -4,16 +4,16 @@ import pytest
 
 @pytest.fixture(scope='function', autouse=False)
 def GPIO():
-    """Mock RPi.GPIO module."""
+    """Mock OPi.GPIO module."""
 
     GPIO = mock.MagicMock()
     # Fudge for Python < 37 (possibly earlier)
-    sys.modules['RPi'] = mock.Mock()
-    sys.modules['RPi'].GPIO = GPIO
-    sys.modules['RPi.GPIO'] = GPIO
+    sys.modules['OPi'] = mock.Mock()
+    sys.modules['OPi'].GPIO = GPIO
+    sys.modules['OPi.GPIO'] = GPIO
     yield GPIO
-    del sys.modules['RPi']
-    del sys.modules['RPi.GPIO']
+    del sys.modules['OPi']
+    del sys.modules['OPi.GPIO']
 
 
 @pytest.fixture(scope='function', autouse=False)

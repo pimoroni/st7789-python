@@ -5,7 +5,13 @@ import sys
 
 from PIL import Image
 from PIL import ImageDraw
-import ST7789 as ST7789
+from OrangePi import ST7789
+
+SPI_PORT = 0
+SPI_CS = 0
+SPI_DC = 27    # PA0
+SPI_RES = 17   # PA1
+BACKLIGHT = 22 # PA3
 
 # Higher SPI bus speed = higher framerate
 try:
@@ -18,7 +24,7 @@ except IndexError:
 try:
     display_type = sys.argv[2]
 except IndexError:
-    display_type = "square"
+    display_type = "dhmini"
 
 print("""
 framerate.py - Test LCD framerate.
@@ -42,20 +48,21 @@ try:
         "square": (240, 240, 90, 19, 0, 0),
         "round": (240, 240, 90, 19, 40, 0),
         "rect": (240, 135, 0, 19, 40, 53),
-        "dhmini": (320, 240, 180, 13, 0, 0)
+        "dhmini": (320, 240, 180, BACKLIGHT, 0, 0)
     }[display_type]
 except IndexError:
     raise RuntimeError("Unsupported display type: {}".format(display_type))
 
 # Create ST7789 LCD display class.
-disp = ST7789.ST7789(
+disp = ST7789(
     width=width,
     height=height,
     rotation=rotation,
-    port=0,
-    cs=ST7789.BG_SPI_CS_FRONT,  # BG_SPI_CS_BACK or BG_SPI_CS_FRONT
-    dc=9,
-    backlight=backlight,        # 18 for back BG slot, 19 for front BG slot.
+    port=SPI_PORT,
+    cs=SPI_CS,
+    dc=SPI_DC,
+    rst=SPI_RES,
+    backlight=BACKLIGHT,
     spi_speed_hz=SPI_SPEED_MHZ * 1000000,
     offset_left=offset_left,
     offset_top=offset_top

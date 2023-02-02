@@ -8,7 +8,13 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 
-import ST7789
+from OrangePi import ST7789
+
+SPI_PORT = 0
+SPI_CS = 0
+SPI_DC = 27    # PA0
+SPI_RES = 17   # PA1
+BACKLIGHT = 22 # PA3
 
 print("""
 round.py - Shiny shiny round LCD!
@@ -31,14 +37,18 @@ except IndexError:
     style = "dots"
 
 # Create ST7789 LCD display class.
-disp = ST7789.ST7789(
-    port=0,
-    cs=ST7789.BG_SPI_CS_FRONT,  # BG_SPI_CS_BACK or BG_SPI_CS_FRONT
-    dc=9,
-    backlight=19,               # 18 for back BG slot, 19 for front BG slot.
-    rotation=90,
+disp = ST7789(
+    height=240,
+    width=320,
+    rotation=0,
+    port=SPI_PORT,
+    cs=SPI_CS,
+    dc=SPI_DC,
+    rst=SPI_RES,
+    backlight=BACKLIGHT,
     spi_speed_hz=80 * 1000 * 1000,
-    offset_left=40
+    offset_left=0,
+    offset_top=0
 )
 
 # Initialize display.
@@ -48,7 +58,6 @@ RADIUS = disp.width // 2
 
 img = Image.new('RGB', (disp.width, disp.height), color=(0, 0, 0))
 draw = ImageDraw.Draw(img)
-
 
 while True:
     t = time.time()

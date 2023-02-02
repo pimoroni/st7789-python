@@ -5,7 +5,13 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 
-import ST7789
+from OrangePi import ST7789
+
+SPI_PORT = 0
+SPI_CS = 0
+SPI_DC = 27    # PA0
+SPI_RES = 17   # PA1
+BACKLIGHT = 22 # PA3
 
 print("""
 shapes.py - Display test shapes on the LCD using PIL.
@@ -26,32 +32,33 @@ Where <display_type> is one of:
 try:
     display_type = sys.argv[1]
 except IndexError:
-    display_type = "square"
+    display_type = "dhmini"
 
 # Create ST7789 LCD display class.
 
 if display_type in ("square", "rect", "round"):
-    disp = ST7789.ST7789(
+    disp = ST7789(
         height=135 if display_type == "rect" else 240,
         rotation=0 if display_type == "rect" else 90,
-        port=0,
+        port=SPI_PORT,
         cs=ST7789.BG_SPI_CS_FRONT,  # BG_SPI_CS_BACK or BG_SPI_CS_FRONT
-        dc=9,
-        backlight=19,               # 18 for back BG slot, 19 for front BG slot.
+        dc=SPI_DC,
+        backlight=BACKLIGHT,               # 18 for back BG slot, 19 for front BG slot.
         spi_speed_hz=80 * 1000 * 1000,
         offset_left=0 if display_type == "square" else 40,
         offset_top=53 if display_type == "rect" else 0
     )
 
 elif display_type == "dhmini":
-    disp = ST7789.ST7789(
+    disp = ST7789(
         height=240,
         width=320,
-        rotation=180,
-        port=0,
-        cs=1,
-        dc=9,
-        backlight=13,
+        rotation=0,
+        port=SPI_PORT,
+        cs=SPI_CS,
+        dc=SPI_DC,
+        rst=SPI_RES,
+        backlight=BACKLIGHT,
         spi_speed_hz=60 * 1000 * 1000,
         offset_left=0,
         offset_top=0

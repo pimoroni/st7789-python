@@ -13,7 +13,7 @@ common troubleshooting steps below before creating the issue:
   check all of the steps and commands to run have been followed.  Consult the
   forum if you're unsure or have questions about steps in a guide/tutorial.
 
-- **For Python/Raspberry Pi projects check these very common issues to ensure they don't apply**:
+- **For Python/Orange Pi projects check these very common issues to ensure they don't apply**:
 
   - If you are receiving an **ImportError: No module named...** error then a
     library the code depends on is not installed.  Check the tutorial/guide or

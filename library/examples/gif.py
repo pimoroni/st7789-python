@@ -1,8 +1,24 @@
 #!/usr/bin/env python3
 from PIL import Image
-import ST7789
+from OrangePi import ST7789
 import time
 import sys
+
+SPI_PORT = 0
+SPI_CS = 0
+SPI_DC = 27    # PA0
+SPI_RES = 17   # PA1
+BACKLIGHT = 22 # PA3
+
+try:
+    image_file = sys.argv[1]
+except IndexError:
+    image_file = "./examples/deployrainbows.gif"
+
+try:
+    display_type = sys.argv[2]
+except IndexError:
+    display_type = "dhmini"
 
 print("""
 gif.py - Display a gif on the LCD.
@@ -12,8 +28,7 @@ breakout into the front slot.
 
 """)
 
-if len(sys.argv) < 2:
-    print("""Usage: {path} <gif_file> <display_type>
+print("""Usage: {path} <gif_file> <display_type>
 
 Where <gif_file> is a .gif file.
   Hint: {path} deployrainbows.gif
@@ -24,19 +39,11 @@ And <display_type> is one of:
   * rect   - 240x135 1.14" Rectangular LCD (applies an offset)
   * dhmini - 320x240 2.0" Display HAT Mini
 """.format(path=sys.argv[0]))
-    sys.exit(1)
-
-image_file = sys.argv[1]
-
-try:
-    display_type = sys.argv[2]
-except IndexError:
-    display_type = "square"
 
 # Create ST7789 LCD display class.
 
 if display_type in ("square", "rect", "round"):
-    disp = ST7789.ST7789(
+    disp = ST7789(
         height=135 if display_type == "rect" else 240,
         rotation=0 if display_type == "rect" else 90,
         port=0,
@@ -49,14 +56,15 @@ if display_type in ("square", "rect", "round"):
     )
 
 elif display_type == "dhmini":
-    disp = ST7789.ST7789(
+    disp = ST7789(
         height=240,
         width=320,
         rotation=180,
-        port=0,
-        cs=1,
-        dc=9,
-        backlight=13,
+        port=SPI_PORT,
+        cs=SPI_CS,
+        dc=SPI_DC,
+        rst=SPI_RES,
+        backlight=BACKLIGHT,
         spi_speed_hz=60 * 1000 * 1000,
         offset_left=0,
         offset_top=0

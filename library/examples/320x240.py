@@ -1,26 +1,14 @@
 #!/usr/bin/env python3
-from ST7789 import ST7789, BG_SPI_CS_FRONT
+from OrangePi import ST7789
 from PIL import Image, ImageDraw
 
-import random
 import time
 
-# Buttons
-BUTTON_A = 5
-BUTTON_B = 6
-BUTTON_X = 16
-BUTTON_Y = 24
-
-# Onboard RGB LED
-LED_R = 17
-LED_G = 27
-LED_B = 22
-
-# General
 SPI_PORT = 0
-SPI_CS = 1
-SPI_DC = 9
-BACKLIGHT = 13
+SPI_CS = 0
+SPI_DC = 27    # PA0
+SPI_RES = 17   # PA1
+BACKLIGHT = 22 # PA3
 
 # Screen dimensions
 WIDTH = 320
@@ -38,6 +26,7 @@ display = ST7789(
     port=SPI_PORT,
     cs=SPI_CS,
     dc=SPI_DC,
+    rst=SPI_RES,
     backlight=BACKLIGHT,
     width=WIDTH,
     height=HEIGHT,

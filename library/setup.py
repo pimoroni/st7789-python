@@ -11,7 +11,7 @@ classifiers = ['Development Status :: 4 - Beta',
                'Topic :: System :: Hardware']
 
 setup(name='OrangePi.ST7789',
-      version='1.0.0',
+      version='1.0.1',
       description='Library to control ST7789 TFT LCD displays on the Orange Pi.',
       long_description=open('README.md').read(),
       long_description_content_type='text/markdown',

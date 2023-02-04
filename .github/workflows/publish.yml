@@ -30,7 +30,7 @@ jobs:
         python3 setup.py sdist
 
     - name: Publish package to PyPI
-      if: github.event_name == 'push' && startsWith(github.ref, 'refs/master')
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         password: ${{ secrets.PYPI_API_TOKEN }}

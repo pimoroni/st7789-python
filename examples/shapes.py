@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 import sys
 
-from PIL import Image
-from PIL import ImageDraw
-from PIL import ImageFont
+from PIL import Image, ImageDraw, ImageFont
 
 import st7789
 

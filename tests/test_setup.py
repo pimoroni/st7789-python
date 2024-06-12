@@ -1,5 +1,6 @@
 import pytest
 
+
 def test_setup(gpiodevice, gpiod, spidev, numpy, st7789):
     display = st7789.ST7789(port=0, cs=0, dc=24)
     del display

@@ -2,12 +2,9 @@
 import sys
 import time
 
-from PIL import Image
-from PIL import ImageDraw
-from PIL import ImageFont
+from PIL import Image, ImageDraw, ImageFont
 
 import st7789
-
 
 MESSAGE = "Hello World! How are you today?"
 

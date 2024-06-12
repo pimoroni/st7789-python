@@ -20,10 +20,10 @@
 # THE SOFTWARE.
 import numbers
 import time
-import numpy
 
 import gpiod
 import gpiodevice
+import numpy
 import spidev
 from gpiod.line import Direction, Value
 

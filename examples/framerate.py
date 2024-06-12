@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-import time
 import math
 import sys
+import time
 
-from PIL import Image
-from PIL import ImageDraw
+from PIL import Image, ImageDraw
+
 import st7789
 
 # Higher SPI bus speed = higher framerate

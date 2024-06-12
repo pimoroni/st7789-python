@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-import sys
-import math
-import time
 import colorsys
+import math
+import sys
+import time
 
-from PIL import Image
-from PIL import ImageDraw
-from PIL import ImageFont
+from PIL import Image, ImageDraw, ImageFont
 
 import st7789
 

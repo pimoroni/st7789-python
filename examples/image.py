@@ -2,6 +2,7 @@
 import sys
 
 from PIL import Image
+
 import st7789
 
 print("""

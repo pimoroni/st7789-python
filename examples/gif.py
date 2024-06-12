@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-from PIL import Image
-import st7789
-import time
 import sys
+import time
+
+from PIL import Image
+
+import st7789
 
 print("""
 gif.py - Display a gif on the LCD.

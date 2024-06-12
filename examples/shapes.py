@@ -5,13 +5,13 @@ from PIL import Image, ImageDraw, ImageFont
 
 import st7789
 
-print("""
+print(f"""
 shapes.py - Display test shapes on the LCD using PIL.
 
 If you're using Breakout Garden, plug the 1.3" LCD (SPI)
 breakout into the front slot.
 
-Usage: {} <display_type>
+Usage: {sys.argv[0]} <display_type>
 
 Where <display_type> is one of:
 
@@ -19,7 +19,7 @@ Where <display_type> is one of:
   * round  - 240x240 1.3" Round LCD (applies an offset)
   * rect   - 240x135 1.14" Rectangular LCD (applies an offset)
   * dhmini - 320x240 2.0" Display HAT Mini
-""".format(sys.argv[0]))
+""")
 
 try:
     display_type = sys.argv[1]

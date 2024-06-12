@@ -20,13 +20,13 @@ try:
 except IndexError:
     display_type = "square"
 
-print("""
+print(f"""
 framerate.py - Test LCD framerate.
 
 If you're using Breakout Garden, plug the 1.3" LCD (SPI)
 breakout into the front slot.
 
-Usage: {} <spi_speed_mhz> <display_type>
+Usage: {sys.argv[0]} <spi_speed_mhz> <display_type>
 
 Where <display_type> is one of:
   * square - 240x240 1.3" Square LCD
@@ -34,8 +34,8 @@ Where <display_type> is one of:
   * rect   - 240x135 1.14" Rectangular LCD (applies an offset)
   * dhmini - 320x240 2.0" Rectangular LCD
 
-Running at: {}MHz on a {} display.
-""".format(sys.argv[0], SPI_SPEED_MHZ, display_type))
+Running at: {SPI_SPEED_MHZ}MHz on a {display_type} display.
+""")
 
 try:
     width, height, rotation, backlight, offset_left, offset_top = {
@@ -45,7 +45,7 @@ try:
         "dhmini": (320, 240, 180, 13, 0, 0)
     }[display_type]
 except IndexError:
-    raise RuntimeError("Unsupported display type: {}".format(display_type))
+    raise RuntimeError(f"Unsupported display type: {display_type}")
 
 # Create ST7789 LCD display class.
 disp = st7789.ST7789(
@@ -89,7 +89,4 @@ while True:
     count += 1
     time_current = time.time() - time_start
     if count % 120 == 0:
-        print("Time: {:8.3f},      Frames: {:6d},      FPS: {:8.3f}".format(
-            time_current,
-            count,
-            count / time_current))
+        print(f"Time: {time_current:8.3f},      Frames: {count:6d},      FPS: {count / time_current:8.3f}")

@@ -8,20 +8,20 @@ from PIL import Image, ImageDraw
 
 import st7789
 
-print("""
+print(f"""
 round.py - Shiny shiny round LCD!
 
 If you're using Breakout Garden, plug a 1.3" ROUND LCD
 (SPI) breakout into the front slot.
 
-Usage: {} <style>
+Usage: {sys.argv[0]} <style>
 
 Where style is one of:
 
  * dots - swirly swooshy dots
  * lines - 3D depth effect lines
 
-""".format(sys.argv[0]))
+""")
 
 try:
     style = sys.argv[1]

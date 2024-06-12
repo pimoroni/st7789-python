@@ -8,13 +8,13 @@ import st7789
 
 MESSAGE = "Hello World! How are you today?"
 
-print("""
+print(f"""
 scrolling-test.py - Display scrolling text.
 
 If you're using Breakout Garden, plug the 1.3" LCD (SPI)
 breakout into the front slot.
 
-Usage: {} "<message>" <display_type>
+Usage: {sys.argv[0]} "<message>" <display_type>
 
 Where <display_type> is one of:
 
@@ -22,7 +22,7 @@ Where <display_type> is one of:
   * round  - 240x240 1.3" Round LCD (applies an offset)
   * rect   - 240x135 1.14" Rectangular LCD (applies an offset)
   * dhmini - 320x240 2.0" Display HAT Mini
-""".format(sys.argv[0]))
+""")
 
 try:
     MESSAGE = sys.argv[1]

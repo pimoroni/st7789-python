@@ -115,10 +115,10 @@ class ST7789(object):
 
         """
         if rotation not in [0, 90, 180, 270]:
-            raise ValueError("Invalid rotation {}".format(rotation))
+            raise ValueError(f"Invalid rotation {rotation}")
 
         if width != height and rotation in [90, 270]:
-            raise ValueError("Invalid rotation {} for {}x{} resolution".format(rotation, width, height))
+            raise ValueError(f"Invalid rotation {rotation} for {width}x{height} resolution")
 
         gpiodevice.friendly_errors = True
 

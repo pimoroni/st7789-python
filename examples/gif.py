@@ -15,17 +15,17 @@ breakout into the front slot.
 """)
 
 if len(sys.argv) < 2:
-    print("""Usage: {path} <gif_file> <display_type>
+    print(f"""Usage: {sys.argv[0]} <gif_file> <display_type>
 
 Where <gif_file> is a .gif file.
-  Hint: {path} deployrainbows.gif
+  Hint: {sys.argv[0]} deployrainbows.gif
 
 And <display_type> is one of:
   * square - 240x240 1.3" Square LCD
   * round  - 240x240 1.3" Round LCD (applies an offset)
   * rect   - 240x135 1.14" Rectangular LCD (applies an offset)
   * dhmini - 320x240 2.0" Display HAT Mini
-""".format(path=sys.argv[0]))
+""")
     sys.exit(1)
 
 image_file = sys.argv[1]
@@ -74,7 +74,7 @@ width = disp.width
 height = disp.height
 
 # Load an image.
-print('Loading gif: {}...'.format(image_file))
+print(f'Loading gif: {image_file}...')
 image = Image.open(image_file)
 
 print('Drawing gif, press Ctrl+C to exit!')

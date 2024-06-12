@@ -1,4 +1,4 @@
 [run]
-source = ST7789
+source = st7789
 omit =
     .tox/*

@@ -20,13 +20,16 @@
 # THE SOFTWARE.
 import numbers
 import time
-import numpy as np
 
+import gpiod
+import gpiodevice
+import numpy
 import spidev
-import RPi.GPIO as GPIO
+from gpiod.line import Direction, Value
 
+__version__ = "0.0.4"
 
-__version__ = '0.0.4'
+OUTL = gpiod.LineSettings(direction=Direction.OUTPUT, output_value=Value.INACTIVE)
 
 BG_SPI_CS_BACK = 0
 BG_SPI_CS_FRONT = 1
@@ -90,10 +93,21 @@ ST7789_PWCTR6 = 0xFC
 class ST7789(object):
     """Representation of an ST7789 TFT LCD."""
 
-    def __init__(self, port, cs, dc, backlight=None, rst=None, width=240,
-                 height=240, rotation=90, invert=True, spi_speed_hz=4000000,
-                 offset_left=0,
-                 offset_top=0):
+    def __init__(
+        self,
+        port,
+        cs,
+        dc,
+        backlight=None,
+        rst=None,
+        width=240,
+        height=240,
+        rotation=90,
+        invert=True,
+        spi_speed_hz=4000000,
+        offset_left=0,
+        offset_top=0,
+    ):
         """Create an instance of the display using SPI communication.
 
         Must provide the GPIO pin number for the D/C pin and the SPI driver.
@@ -112,13 +126,14 @@ class ST7789(object):
 
         """
         if rotation not in [0, 90, 180, 270]:
-            raise ValueError("Invalid rotation {}".format(rotation))
+            raise ValueError(f"Invalid rotation {rotation}")
 
         if width != height and rotation in [90, 270]:
-            raise ValueError("Invalid rotation {} for {}x{} resolution".format(rotation, width, height))
+            raise ValueError(
+                f"Invalid rotation {rotation} for {width}x{height} resolution"
+            )
 
-        GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BCM)
+        gpiodevice.friendly_errors = True
 
         self._spi = spidev.SpiDev(port, cs)
         self._spi.mode = 0
@@ -136,21 +151,24 @@ class ST7789(object):
         self._offset_top = offset_top
 
         # Set DC as output.
-        GPIO.setup(dc, GPIO.OUT)
+        self._dc = gpiodevice.get_pin(dc, "st7789-dc", OUTL)
 
         # Setup backlight as output (if provided).
-        self._backlight = backlight
         if backlight is not None:
-            GPIO.setup(backlight, GPIO.OUT)
-            GPIO.output(backlight, GPIO.LOW)
+            self._bl = gpiodevice.get_pin(backlight, "st7789-bl", OUTL)
+            self.set_pin(self._bl, False)
             time.sleep(0.1)
-            GPIO.output(backlight, GPIO.HIGH)
+            self.set_pin(self._bl, True)
 
         # Setup reset as output (if provided).
         if rst is not None:
-            GPIO.setup(self._rst, GPIO.OUT)
-            self.reset()
+            self._rst = gpiodevice.get_pin(rst, "st7789-rst", OUTL)
+
         self._init()
+
+    def set_pin(self, pin, state):
+        lines, offset = pin
+        lines.set_value(offset, Value.ACTIVE if state else Value.INACTIVE)
 
     def send(self, data, is_data=True, chunk_size=4096):
         """Write a byte or array of bytes to the display. Is_data parameter
@@ -159,7 +177,7 @@ class ST7789(object):
         single SPI transaction, with a default of 4096.
         """
         # Set DC low for command, high for data.
-        GPIO.output(self._dc, is_data)
+        self.set_pin(self._dc, is_data)
         # Convert scalar argument to list so either can be passed as parameter.
         if isinstance(data, numbers.Number):
             data = [data & 0xFF]
@@ -170,16 +188,24 @@ class ST7789(object):
 
     def set_backlight(self, value):
         """Set the backlight on/off."""
-        if self._backlight is not None:
-            GPIO.output(self._backlight, value)
+        if self._bl is not None:
+            self.set_pin(self._bl, value)
 
     @property
     def width(self):
-        return self._width if self._rotation == 0 or self._rotation == 180 else self._height
+        return (
+            self._width
+            if self._rotation == 0 or self._rotation == 180
+            else self._height
+        )
 
     @property
     def height(self):
-        return self._height if self._rotation == 0 or self._rotation == 180 else self._width
+        return (
+            self._height
+            if self._rotation == 0 or self._rotation == 180
+            else self._width
+        )
 
     def command(self, data):
         """Write a byte or array of bytes to the display as command data."""
@@ -192,23 +218,23 @@ class ST7789(object):
     def reset(self):
         """Reset the display, if reset pin is connected."""
         if self._rst is not None:
-            GPIO.output(self._rst, 1)
+            self.set_pin(self._rst, True)
             time.sleep(0.500)
-            GPIO.output(self._rst, 0)
+            self.set_pin(self._rst, False)
             time.sleep(0.500)
-            GPIO.output(self._rst, 1)
+            self.set_pin(self._rst, True)
             time.sleep(0.500)
 
     def _init(self):
         # Initialize the display.
 
-        self.command(ST7789_SWRESET)    # Software reset
-        time.sleep(0.150)               # delay 150 ms
+        self.command(ST7789_SWRESET)  # Software reset
+        time.sleep(0.150)  # delay 150 ms
 
         self.command(ST7789_MADCTL)
         self.data(0x70)
 
-        self.command(ST7789_FRMCTR2)    # Frame rate ctrl - idle mode
+        self.command(ST7789_FRMCTR2)  # Frame rate ctrl - idle mode
         self.data(0x0C)
         self.data(0x0C)
         self.data(0x00)
@@ -224,16 +250,16 @@ class ST7789(object):
         self.command(ST7789_VCOMS)
         self.data(0x37)
 
-        self.command(ST7789_LCMCTRL)    # Power control
+        self.command(ST7789_LCMCTRL)  # Power control
         self.data(0x2C)
 
-        self.command(ST7789_VDVVRHEN)   # Power control
+        self.command(ST7789_VDVVRHEN)  # Power control
         self.data(0x01)
 
-        self.command(ST7789_VRHS)       # Power control
+        self.command(ST7789_VRHS)  # Power control
         self.data(0x12)
 
-        self.command(ST7789_VDVS)       # Power control
+        self.command(ST7789_VDVS)  # Power control
         self.data(0x20)
 
         self.command(0xD0)
@@ -243,7 +269,7 @@ class ST7789(object):
         self.command(ST7789_FRCTRL2)
         self.data(0x0F)
 
-        self.command(ST7789_GMCTRP1)    # Set Gamma
+        self.command(ST7789_GMCTRP1)  # Set Gamma
         self.data(0xD0)
         self.data(0x04)
         self.data(0x0D)
@@ -259,7 +285,7 @@ class ST7789(object):
         self.data(0x1F)
         self.data(0x23)
 
-        self.command(ST7789_GMCTRN1)    # Set Gamma
+        self.command(ST7789_GMCTRN1)  # Set Gamma
         self.data(0xD0)
         self.data(0x04)
         self.data(0x0C)
@@ -276,14 +302,14 @@ class ST7789(object):
         self.data(0x23)
 
         if self._invert:
-            self.command(ST7789_INVON)   # Invert display
+            self.command(ST7789_INVON)  # Invert display
         else:
             self.command(ST7789_INVOFF)  # Don't invert display
 
         self.command(ST7789_SLPOUT)
 
-        self.command(ST7789_DISPON)     # Display on
-        time.sleep(0.100)               # 100 ms
+        self.command(ST7789_DISPON)  # Display on
+        time.sleep(0.100)  # 100 ms
 
     def begin(self):
         """Set up the display
@@ -312,17 +338,17 @@ class ST7789(object):
         x0 += self._offset_left
         x1 += self._offset_left
 
-        self.command(ST7789_CASET)       # Column addr set
+        self.command(ST7789_CASET)  # Column addr set
         self.data(x0 >> 8)
-        self.data(x0 & 0xFF)             # XSTART
+        self.data(x0 & 0xFF)  # XSTART
         self.data(x1 >> 8)
-        self.data(x1 & 0xFF)             # XEND
-        self.command(ST7789_RASET)       # Row addr set
+        self.data(x1 & 0xFF)  # XEND
+        self.command(ST7789_RASET)  # Row addr set
         self.data(y0 >> 8)
-        self.data(y0 & 0xFF)             # YSTART
+        self.data(y0 & 0xFF)  # YSTART
         self.data(y1 >> 8)
-        self.data(y1 & 0xFF)             # YEND
-        self.command(ST7789_RAMWR)       # write to RAM
+        self.data(y1 & 0xFF)  # YEND
+        self.command(ST7789_RAMWR)  # write to RAM
 
     def display(self, image):
         """Write the provided image to the hardware.
@@ -339,19 +365,19 @@ class ST7789(object):
 
         # Write data to hardware.
         for i in range(0, len(pixelbytes), 4096):
-            self.data(pixelbytes[i:i + 4096])
+            self.data(pixelbytes[i : i + 4096])
 
     def image_to_data(self, image, rotation=0):
-        if not isinstance(image, np.ndarray):
-            image = np.array(image.convert('RGB'))
+        if not isinstance(image, numpy.ndarray):
+            image = numpy.array(image.convert("RGB"))
 
         # Rotate the image
-        pb = np.rot90(image, rotation // 90).astype('uint16')
+        pb = numpy.rot90(image, rotation // 90).astype("uint16")
 
         # Mask and shift the 888 RGB into 565 RGB
-        red   = (pb[..., [0]] & 0xf8) << 8
-        green = (pb[..., [1]] & 0xfc) << 3
-        blue  = (pb[..., [2]] & 0xf8) >> 3
+        red = (pb[..., [0]] & 0xF8) << 8
+        green = (pb[..., [1]] & 0xFC) << 3
+        blue = (pb[..., [2]] & 0xF8) >> 3
 
         # Stick 'em together
         result = red | green | blue

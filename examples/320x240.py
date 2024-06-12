@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-from ST7789 import ST7789, BG_SPI_CS_FRONT
+import time
+
 from PIL import Image, ImageDraw
 
-import random
-import time
+from st7789 import ST7789
 
 # Buttons
 BUTTON_A = 5
@@ -30,9 +30,9 @@ buffer = Image.new("RGB", (WIDTH, HEIGHT))
 draw = ImageDraw.Draw(buffer)
 
 draw.rectangle((0, 0, 50, 50), (255, 0, 0))
-draw.rectangle((320-50, 0, 320, 50), (0, 255, 0))
-draw.rectangle((0, 240-50, 50, 240), (0, 0, 255))
-draw.rectangle((320-50, 240-50, 320, 240), (255, 255, 0))
+draw.rectangle((320 - 50, 0, 320, 50), (0, 255, 0))
+draw.rectangle((0, 240 - 50, 50, 240), (0, 0, 255))
+draw.rectangle((320 - 50, 240 - 50, 320, 240), (255, 255, 0))
 
 display = ST7789(
     port=SPI_PORT,
@@ -42,7 +42,7 @@ display = ST7789(
     width=WIDTH,
     height=HEIGHT,
     rotation=180,
-    spi_speed_hz=60 * 1000 * 1000
+    spi_speed_hz=60 * 1000 * 1000,
 )
 
 while True:

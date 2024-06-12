@@ -1,10 +1,9 @@
 # Python ST7789
 
-[![Build Status](https://travis-ci.com/pimoroni/st7789-python.svg?branch=master)](https://travis-ci.com/pimoroni/st7789-python)
-[![Coverage Status](https://coveralls.io/repos/github/pimoroni/st7789-python/badge.svg?branch=master)](https://coveralls.io/github/pimoroni/st7789-python?branch=master)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/pimoroni/st7789-python/test.yml?branch=main)](https://github.com/pimoroni/st7789-python/actions/workflows/test.yml)
+[![Coverage Status](https://coveralls.io/repos/github/pimoroni/st7789-python/badge.svg?branch=main)](https://coveralls.io/github/pimoroni/st7789-python?branch=main)
 [![PyPi Package](https://img.shields.io/pypi/v/st7789.svg)](https://pypi.python.org/pypi/st7789)
 [![Python Versions](https://img.shields.io/pypi/pyversions/st7789.svg)](https://pypi.python.org/pypi/st7789)
-
 
 Python library to control an ST7789 TFT LCD display
 

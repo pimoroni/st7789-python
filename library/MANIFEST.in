@@ -1,5 +1,0 @@
-include CHANGELOG.txt
-include LICENSE.txt
-include README.rst
-include setup.py
-recursive-include ST7789 *.py

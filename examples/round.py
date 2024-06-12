@@ -8,7 +8,7 @@ from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
 
-import ST7789
+import st7789
 
 print("""
 round.py - Shiny shiny round LCD!
@@ -31,9 +31,9 @@ except IndexError:
     style = "dots"
 
 # Create ST7789 LCD display class.
-disp = ST7789.ST7789(
+disp = st7789.ST7789(
     port=0,
-    cs=ST7789.BG_SPI_CS_FRONT,  # BG_SPI_CS_BACK or BG_SPI_CS_FRONT
+    cs=st7789.BG_SPI_CS_FRONT,  # BG_SPI_CS_BACK or BG_SPI_CS_FRONT
     dc=9,
     backlight=19,               # 18 for back BG slot, 19 for front BG slot.
     rotation=90,

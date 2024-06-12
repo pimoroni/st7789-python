@@ -5,7 +5,7 @@ import sys
 
 from PIL import Image
 from PIL import ImageDraw
-import ST7789 as ST7789
+import st7789
 
 # Higher SPI bus speed = higher framerate
 try:
@@ -48,12 +48,12 @@ except IndexError:
     raise RuntimeError("Unsupported display type: {}".format(display_type))
 
 # Create ST7789 LCD display class.
-disp = ST7789.ST7789(
+disp = st7789.ST7789(
     width=width,
     height=height,
     rotation=rotation,
     port=0,
-    cs=ST7789.BG_SPI_CS_FRONT,  # BG_SPI_CS_BACK or BG_SPI_CS_FRONT
+    cs=st7789.BG_SPI_CS_FRONT,  # BG_SPI_CS_BACK or BG_SPI_CS_FRONT
     dc=9,
     backlight=backlight,        # 18 for back BG slot, 19 for front BG slot.
     spi_speed_hz=SPI_SPEED_MHZ * 1000000,

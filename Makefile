@@ -1,49 +1,66 @@
-.PHONY: usage install uninstall
+LIBRARY_NAME := $(shell hatch project metadata name 2> /dev/null)
+LIBRARY_VERSION := $(shell hatch version 2> /dev/null)
+
+.PHONY: usage install uninstall check pytest qa build-deps check tag wheel sdist clean dist testdeploy deploy
 usage:
+ifdef LIBRARY_NAME
+	@echo "Library: ${LIBRARY_NAME}"
+	@echo "Version: ${LIBRARY_VERSION}\n"
+else
+	@echo "WARNING: You should 'make dev-deps'\n"
+endif
 	@echo "Usage: make <target>, where target is one of:\n"
-	@echo "install:	   install the library locally from source"
-	@echo "uninstall:	 uninstall the local library"
-	@echo "python-readme: generate library/README.md from README.md"
-	@echo "python-wheels: build python .whl files for distribution"
-	@echo "python-sdist:  build python source distribution"
-	@echo "python-clean:  clean python build and dist directories"
-	@echo "python-dist:   build all python distribution files" 
+	@echo "install:      install the library locally from source"
+	@echo "uninstall:    uninstall the local library"
+	@echo "dev-deps:     install Python dev dependencies"
+	@echo "check:        perform basic integrity checks on the codebase"
+	@echo "qa:           run linting and package QA"
+	@echo "pytest:       run Python test fixtures"
+	@echo "clean:        clean Python build and dist directories"
+	@echo "build:        build Python distribution files"
+	@echo "testdeploy:   build and upload to test PyPi"
+	@echo "deploy:       build and upload to PyPi"
+	@echo "tag:          tag the repository with the current version\n"
+
+version:
+	@hatch version
 
 install:
-	./install.sh
+	./install.sh --unstable
 
 uninstall:
 	./uninstall.sh
 
-python-readme: library/README.md
+dev-deps:
+	python3 -m pip install -r requirements-dev.txt
+	sudo apt install dos2unix shellcheck
 
-python-license: library/LICENSE.txt
+check:
+	@bash check.sh
 
-library/README.md: README.md library/CHANGELOG.txt
-	cp README.md library/README.md
-	printf "\n# Changelog\n" >> library/README.md
-	cat library/CHANGELOG.txt >> library/README.md
+shellcheck:
+	shellcheck *.sh
 
-library/LICENSE.txt: LICENSE
-	cp LICENSE library/LICENSE.txt
+qa:
+	tox -e qa
 
-python-wheels: python-readme python-license
-	cd library; python3 setup.py bdist_wheel
-	cd library; python setup.py bdist_wheel
+pytest:
+	tox -e py
 
-python-sdist: python-readme python-license
-	cd library; python setup.py sdist
+nopost:
+	@bash check.sh --nopost
 
-python-clean:
-	-rm -r library/dist
-	-rm -r library/build
-	-rm -r library/*.egg-info
+tag: version
+	git tag -a "v${LIBRARY_VERSION}" -m "Version ${LIBRARY_VERSION}"
 
-python-dist: python-clean python-wheels python-sdist
-	ls library/dist
+build: check
+	@hatch build
 
-python-deploy: python-dist
-	twine upload library/dist/*
+clean:
+	-rm -r dist
 
-python-testdeploy: python-dist
-	twine upload --repository-url https://test.pypi.org/legacy/ library/dist/*
+testdeploy: build
+	twine upload --repository testpypi dist/*
+
+deploy: nopost build
+	twine upload dist/*

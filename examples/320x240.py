@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from ST7789 import ST7789, BG_SPI_CS_FRONT
+from st7789 import ST7789, BG_SPI_CS_FRONT
 from PIL import Image, ImageDraw
 
 import random

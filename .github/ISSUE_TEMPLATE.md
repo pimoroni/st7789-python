@@ -19,7 +19,7 @@ common troubleshooting steps below before creating the issue:
     library the code depends on is not installed.  Check the tutorial/guide or
     README to ensure you have installed the necessary libraries.  Usually the
     missing library can be installed with the `pip` tool, but check the tutorial/guide
-    for the exact command.  
+    for the exact command.
 
   - **Be sure you are supplying adequate power to the board.**  Check the specs of
     your board and power in an external power supply.  In many cases just

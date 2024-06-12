@@ -7,6 +7,7 @@ import pytest
 @pytest.fixture(scope="function", autouse=False)
 def st7789():
     import st7789
+
     yield st7789
     del sys.modules["st7789"]
 

@@ -20,7 +20,8 @@ try:
 except IndexError:
     display_type = "square"
 
-print(f"""
+print(
+    f"""
 framerate.py - Test LCD framerate.
 
 If you're using Breakout Garden, plug the 1.3" LCD (SPI)
@@ -35,14 +36,15 @@ Where <display_type> is one of:
   * dhmini - 320x240 2.0" Rectangular LCD
 
 Running at: {SPI_SPEED_MHZ}MHz on a {display_type} display.
-""")
+"""
+)
 
 try:
     width, height, rotation, backlight, offset_left, offset_top = {
         "square": (240, 240, 90, 19, 0, 0),
         "round": (240, 240, 90, 19, 40, 0),
         "rect": (240, 135, 0, 19, 40, 53),
-        "dhmini": (320, 240, 180, 13, 0, 0)
+        "dhmini": (320, 240, 180, 13, 0, 0),
     }[display_type]
 except IndexError:
     raise RuntimeError(f"Unsupported display type: {display_type}")
@@ -55,10 +57,10 @@ disp = st7789.ST7789(
     port=0,
     cs=st7789.BG_SPI_CS_FRONT,  # BG_SPI_CS_BACK or BG_SPI_CS_FRONT
     dc=9,
-    backlight=backlight,        # 18 for back BG slot, 19 for front BG slot.
+    backlight=backlight,  # 18 for back BG slot, 19 for front BG slot.
     spi_speed_hz=SPI_SPEED_MHZ * 1000000,
     offset_left=offset_left,
-    offset_top=offset_top
+    offset_top=offset_top,
 )
 
 WIDTH = disp.width
@@ -71,9 +73,9 @@ for step in range(STEPS):
     draw = ImageDraw.Draw(image)
 
     if step % 2 == 0:
-        draw.rectangle((WIDTH/2, int(HEIGHT/2), WIDTH, HEIGHT), (0, 128, 0))
+        draw.rectangle((WIDTH / 2, int(HEIGHT / 2), WIDTH, HEIGHT), (0, 128, 0))
     else:
-        draw.rectangle((0, 0, WIDTH/2-1, int(HEIGHT/2)-1), (0, 128, 0))
+        draw.rectangle((0, 0, WIDTH / 2 - 1, int(HEIGHT / 2) - 1), (0, 128, 0))
 
     f = math.sin((float(step) / STEPS) * math.pi)
     offset_left = int(f * WIDTH)
@@ -89,4 +91,6 @@ while True:
     count += 1
     time_current = time.time() - time_start
     if count % 120 == 0:
-        print(f"Time: {time_current:8.3f},      Frames: {count:6d},      FPS: {count / time_current:8.3f}")
+        print(
+            f"Time: {time_current:8.3f},      Frames: {count:6d},      FPS: {count / time_current:8.3f}"
+        )

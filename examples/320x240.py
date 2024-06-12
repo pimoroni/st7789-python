@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-import random
 import time
 
 from PIL import Image, ImageDraw
 
-from st7789 import BG_SPI_CS_FRONT, ST7789
+from st7789 import ST7789
 
 # Buttons
 BUTTON_A = 5

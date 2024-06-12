@@ -4,7 +4,7 @@ import math
 import sys
 import time
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
 import st7789
 
@@ -74,12 +74,12 @@ while True:
         x = RADIUS + int(distance * math.cos(angle))
         y = RADIUS + int(distance * math.sin(angle))
 
-        l = ((math.sin(t + angle) + 1) / 2.0) * 10
+        line = ((math.sin(t + angle) + 1) / 2.0) * 10
         if style == "lines":
-            draw.line((prev_x + l, prev_y + l, x - l, y - l), fill=(r, g, b))
+            draw.line((prev_x + line, prev_y + line, x - line, y - line), fill=(r, g, b))
         else:
-            l += 1
-            draw.ellipse((x - l, y - l, x + (l * 2), y + (l * 2)), fill=(r, g, b))
+            line += 1
+            draw.ellipse((x - line, y - line, x + (line * 2), y + (line * 2)), fill=(r, g, b))
 
         prev_x = x
         prev_y = y

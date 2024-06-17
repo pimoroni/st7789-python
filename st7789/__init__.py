@@ -27,7 +27,7 @@ import numpy
 import spidev
 from gpiod.line import Direction, Value
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 OUTL = gpiod.LineSettings(direction=Direction.OUTPUT, output_value=Value.INACTIVE)
 

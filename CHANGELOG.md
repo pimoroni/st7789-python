@@ -1,3 +1,8 @@
+1.0.1
+-----
+
+* Add spidev and numpy dependencies.
+
 1.0.0
 -----
 

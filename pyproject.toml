@@ -36,7 +36,9 @@ classifiers = [
 ]
 dependencies = [
     "gpiod",
-    "gpiodevice >= 0.0.4"
+    "gpiodevice >= 0.0.4",
+    "numpy >= 1.26.4",
+    "spidev >= 3.6"
 ]
 
 [project.urls]

@@ -37,7 +37,8 @@ if display_type in ("square", "rect", "round"):
         port=0,
         cs=st7789.BG_SPI_CS_FRONT,  # BG_SPI_CS_BACK or BG_SPI_CS_FRONT
         dc=9,
-        backlight=19,  # 18 for back BG slot, 19 for front BG slot.
+        backlight=19,  # Breakout Garden: 18 for back slot, 19 for front slot.
+                       # NOTE: Change this to 13 for Pirate Audio boards
         spi_speed_hz=80 * 1000 * 1000,
         offset_left=0 if display_type == "square" else 40,
         offset_top=53 if display_type == "rect" else 0,

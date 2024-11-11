@@ -35,7 +35,8 @@ disp = st7789.ST7789(
     port=0,
     cs=st7789.BG_SPI_CS_FRONT,  # BG_SPI_CS_BACK or BG_SPI_CS_FRONT
     dc=9,
-    backlight=19,  # 18 for back BG slot, 19 for front BG slot.
+    backlight=19,  # Breakout Garden: 18 for back slot, 19 for front slot.
+                   # NOTE: Change this to 13 for Pirate Audio boards
     rotation=90,
     spi_speed_hz=80 * 1000 * 1000,
     offset_left=40,

@@ -163,6 +163,7 @@ class ST7789(object):
         # Setup reset as output (if provided).
         if rst is not None:
             self._rst = gpiodevice.get_pin(rst, "st7789-rst", OUTL)
+            self.reset()
 
         self._init()
 

@@ -150,19 +150,26 @@ class ST7789(object):
         self._offset_left = offset_left
         self._offset_top = offset_top
 
-        # Set DC as output.
-        self._dc = gpiodevice.get_pin(dc, "st7789-dc", OUTL)
+        # Set up DC pin if a lines/offset tuple is not supplied
+        if isinstance(dc, int):
+            self._dc = ST7789.get_dc_pin(dc)
 
         # Setup backlight as output (if provided).
         if backlight is not None:
-            self._bl = gpiodevice.get_pin(backlight, "st7789-bl", OUTL)
+            if isinstance(backlight, int):
+                self._bl = ST7789.get_bl_pin(backlight)
+            else:
+                self._bl = backlight
             self.set_pin(self._bl, False)
             time.sleep(0.1)
             self.set_pin(self._bl, True)
 
-        # Setup reset as output (if provided).
+        # Set up and call reset (if provided)
         if rst is not None:
-            self._rst = gpiodevice.get_pin(rst, "st7789-rst", OUTL)
+            # Set up RESET pin if a lines/offset tuple is not supplied
+            if isinstance(rst, int):
+                self._rst = ST7789.get_rst_pin(rst)
+            self.reset()
 
         self._init()
 
@@ -384,3 +391,15 @@ class ST7789(object):
 
         # Output the raw bytes
         return result.byteswap().tobytes()
+
+    @staticmethod
+    def get_bl_pin(pin):
+        return gpiodevice.get_pin(pin, "st7789-bl", OUTL)
+
+    @staticmethod
+    def get_rst_pin(pin):
+        return gpiodevice.get_pin(pin, "st7789-rst", OUTL)
+
+    @staticmethod
+    def get_dc_pin(pin):
+        return gpiodevice.get_pin(pin, "st7789-dc", OUTL)

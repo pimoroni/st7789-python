@@ -90,6 +90,9 @@ ST7789_GMCTRN1 = 0xE1
 ST7789_PWCTR6 = 0xFC
 
 
+VARIANT_ST7789 = 1
+VARIANT_ST7789V = 2
+
 class ST7789(object):
     """Representation of an ST7789 TFT LCD."""
 
@@ -107,6 +110,7 @@ class ST7789(object):
         spi_speed_hz=4000000,
         offset_left=0,
         offset_top=0,
+        variant=VARIANT_ST7789,
     ):
         """Create an instance of the display using SPI communication.
 
@@ -123,6 +127,7 @@ class ST7789(object):
         :param rotation: Rotation of display connected to ST7789
         :param invert: Invert display
         :param spi_speed_hz: SPI speed (in Hz)
+        :param variant: Display variant [ST7789, ST7789V]
 
         """
         if rotation not in [0, 90, 180, 270]:
@@ -170,6 +175,10 @@ class ST7789(object):
             if isinstance(rst, int):
                 self._rst = ST7789.get_rst_pin(rst)
             self.reset()
+
+        if variant not in [VARIANT_ST7789, VARIANT_ST7789V]:
+            raise ValueError(f"Invalid variant {variant}")
+        self._variant = variant
 
         self._init()
 
@@ -239,7 +248,10 @@ class ST7789(object):
         time.sleep(0.150)  # delay 150 ms
 
         self.command(ST7789_MADCTL)
-        self.data(0x70)
+        if self._variant == VARIANT_ST7789:
+            self.data(0x70)
+        elif self._variant == VARIANT_ST7789V:
+            self.data(0x00)
 
         self.command(ST7789_FRMCTR2)  # Frame rate ctrl - idle mode
         self.data(0x0C)
@@ -255,7 +267,10 @@ class ST7789(object):
         self.data(0x14)
 
         self.command(ST7789_VCOMS)
-        self.data(0x37)
+        if self._variant == VARIANT_ST7789:
+            self.data(0x37)
+        elif self._variant == VARIANT_ST7789V:
+            self.data(0x1F)
 
         self.command(ST7789_LCMCTRL)  # Power control
         self.data(0x2C)
@@ -277,36 +292,81 @@ class ST7789(object):
         self.data(0x0F)
 
         self.command(ST7789_GMCTRP1)  # Set Gamma
-        self.data(0xD0)
-        self.data(0x04)
-        self.data(0x0D)
-        self.data(0x11)
-        self.data(0x13)
-        self.data(0x2B)
-        self.data(0x3F)
-        self.data(0x54)
-        self.data(0x4C)
-        self.data(0x18)
-        self.data(0x0D)
-        self.data(0x0B)
-        self.data(0x1F)
-        self.data(0x23)
+        if self._variant == VARIANT_ST7789:
+            self.data(0x04)
+            self.data(0xD0)
+            self.data(0x0D)
+            self.data(0x04)
+            self.data(0x11)
+            self.data(0x0D)
+            self.data(0x13)
+            self.data(0x11)
+            self.data(0x2B)
+            self.data(0x13)
+            self.data(0x3F)
+            self.data(0x2B)
+            self.data(0x54)
+            self.data(0x3F)
+            self.data(0x4C)
+            self.data(0x54)
+            self.data(0x18)
+            self.data(0x4C)
+            self.data(0x0D)
+            self.data(0x18)
+            self.data(0x0B)
+            self.data(0x0D)
+            self.data(0x1F)
+            self.data(0x0B)
+            self.data(0x23)
+            self.data(0x1F)
+            self.data(0x23)
+        elif self._variant == VARIANT_ST7789V:
+            self.data(0xD0)
+            self.data(0x08)
+            self.data(0x11)
+            self.data(0x08)
+            self.data(0x0C)
+            self.data(0x15)
+            self.data(0x39)
+            self.data(0x33)
+            self.data(0x50)
+            self.data(0x36)
+            self.data(0x13)
+            self.data(0x14)
+            self.data(0x29)
+            self.data(0x2D)
 
         self.command(ST7789_GMCTRN1)  # Set Gamma
-        self.data(0xD0)
-        self.data(0x04)
-        self.data(0x0C)
-        self.data(0x11)
-        self.data(0x13)
-        self.data(0x2C)
-        self.data(0x3F)
-        self.data(0x44)
-        self.data(0x51)
-        self.data(0x2F)
-        self.data(0x1F)
-        self.data(0x1F)
-        self.data(0x20)
-        self.data(0x23)
+        if self._variant == VARIANT_ST7789:
+            self.data(0xD0)
+            self.data(0x04)
+            self.data(0x0C)
+            self.data(0x11)
+            self.data(0x13)
+            self.data(0x2C)
+            self.data(0x3F)
+            self.data(0x44)
+            self.data(0x51)
+            self.data(0x2F)
+            self.data(0x1F)
+            self.data(0x1F)
+            self.data(0x20)
+            self.data(0x23)
+        elif self._variant == VARIANT_ST7789V:
+            self.data(0xD0)
+            self.data(0x08)
+            self.data(0x10)
+            self.data(0x08)
+            self.data(0x06)
+            self.data(0x06)
+            self.data(0x39)
+            self.data(0x44)
+            self.data(0x51)
+            self.data(0x0B)
+            self.data(0x16)
+            self.data(0x14)
+            self.data(0x2F)
+            self.data(0x31)
 
         if self._invert:
             self.command(ST7789_INVON)  # Invert display
@@ -363,6 +423,9 @@ class ST7789(object):
         :param image: Should be RGB format and the same dimensions as the display hardware.
 
         """
+        if self._variant == VARIANT_ST7789V:
+            self.command(ST7789_MADCTL)
+            self.data(0x70)
         # Set address bounds to entire display.
         self.set_window()
 

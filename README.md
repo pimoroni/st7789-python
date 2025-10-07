@@ -11,23 +11,52 @@ Designed specifically to work with a ST7789 based 240x240 pixel TFT SPI display.
 
 ![Animated GIF showing the ST7789 SPI LCD displaying Deploy/Rainbows in alternating frames](https://raw.githubusercontent.com/pimoroni/st7789-python/master/square-lcd-breakout-1.gif)
 
-# Installation
+## Installing
 
-Make sure you have the following dependencies:
+We'd recommend using this library with Raspberry Pi OS Bookworm or later. It requires Python ≥3.7.
 
-````
-sudo apt-get update
-sudo apt-get install python-rpi.gpio python-spidev python-pip python-pil python-numpy
-````
+## Full install (recommended):
 
-Install this library by running:
+We've created an easy installation script that will install all pre-requisites and get you up and running with minimal efforts. To run it, fire up Terminal which you'll find in Menu -> Accessories -> Terminal
+on your Raspberry Pi desktop, as illustrated below:
 
-````
-sudo pip install st7789
-````
+![Finding the terminal](http://get.pimoroni.com/resources/github-repo-terminal.png)
 
-You might also need to enable I2C and SPI in raspi-config. See example of usage in the examples folder.
+In the new terminal window type the commands exactly as it appears below (check for typos) and follow the on-screen instructions:
 
+```bash
+git clone https://github.com/pimoroni/st7789-python
+cd st7789-python
+./install.sh
+```
+
+**Note** Libraries will be installed in the "pimoroni" virtual environment, you will need to activate it to run examples:
+
+```
+source ~/.virtualenvs/pimoroni/bin/activate
+```
+
+## Development
+
+If you want to contribute, or like living on the edge of your seat by having the latest code, you can install the development version like so:
+
+``` bash
+git clone https://github.com/pimoroni/st7789-python
+cd st7789-python
+./install.sh --unstable
+```
+
+## Install stable library from PyPi and configure manually
+
+* Set up a virtual environment: `python3 -m venv --system-site-packages $HOME/.virtualenvs/pimoroni`
+* Switch to the virtual environment: `source ~/.virtualenvs/pimoroni/bin/activate`
+* Install the library: `pip install st7789`
+
+This will not make any configuration changes, so you may also need to enable:
+
+* spi: `sudo raspi-config nonint do_spi 0`
+
+You can optionally run `sudo raspi-config` or the graphical Raspberry Pi Configuration UI to enable interfaces.
 
 # Licensing & History
 

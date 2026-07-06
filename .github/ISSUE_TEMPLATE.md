@@ -41,7 +41,7 @@ You may delete the guideline and text above to just leave the following details:
   VERSION HERE**
 
 - Error message you are receiving, including any Python exception traces:  **INSERT
-  ERROR MESAGE/EXCEPTION TRACES HERE***
+  ERROR MESSAGE/EXCEPTION TRACES HERE***
 
 - List the steps to reproduce the problem below (if possible attach code or commands
   to run): **LIST REPRO STEPS BELOW**

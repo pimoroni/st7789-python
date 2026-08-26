@@ -93,5 +93,5 @@ while True:
         frame += 1
         time.sleep(0.05)
 
-    except EOFError:
+    except EOFError:  # noqa: PERF203
         frame = 0

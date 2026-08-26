@@ -90,7 +90,7 @@ ST7789_GMCTRN1 = 0xE1
 ST7789_PWCTR6 = 0xFC
 
 
-class ST7789(object):
+class ST7789:
     """Representation of an ST7789 TFT LCD."""
 
     def __init__(
@@ -324,7 +324,6 @@ class ST7789(object):
         Deprecated. Included in __init__.
 
         """
-        pass
 
     def set_window(self, x0=0, y0=0, x1=None, y1=None):
         """Set the pixel address window for proceeding drawing commands. x0 and

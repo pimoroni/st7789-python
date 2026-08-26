@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import contextlib
 import sys
 import time
 
@@ -26,10 +27,8 @@ Where <display_type> is one of:
 """
 )
 
-try:
+with contextlib.suppress(IndexError):
     MESSAGE = sys.argv[1]
-except IndexError:
-    pass
 
 try:
     display_type = sys.argv[2]

@@ -47,7 +47,7 @@ try:
         "dhmini": (320, 240, 180, 13, 0, 0),
     }[display_type]
 except IndexError:
-    raise RuntimeError(f"Unsupported display type: {display_type}")
+    raise RuntimeError(f"Unsupported display type: {display_type}") from None
 
 # Create ST7789 LCD display class.
 disp = st7789.ST7789(
